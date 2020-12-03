@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Maintainer Time Slot</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body style="background: whitesmoke">
+
+<h2>Maintainer Time Slot Selection</h2>
+<hr>
+<form>
+    <div align="center">
+        <div style="display: inline-block; margin-right: 20px">
+            <label for="week_textarea">Week</label>
+            <input type="text" readonly style="text-align:center; width: 100px" id="week_textarea" class="form-control" >
+        </div>
+        <div style="display: inline-block; margin-right: 20px" >
+            <label for="day">Day</label>
+            <input type="text" readonly style="text-align: center; width: 150px; alignment: center" id="day" class="form-control" >
+        </div>
+        <div style="display: inline-block;">
+            <label for="availability">Availability</label>
+            <input type="text" readonly style="text-align:center; width: 100px" id="availability" class="form-control" >
+        </div>
+    </div>
+    <div align="center">
+        <label for="activity_info">Activity to assign</label>
+        <input type="text" readonly style="text-align: center; width: 400px; alignment: center" id="activity_info" class="form-control" >
+    </div>
+</form>
+
+<br>
+<br>
+
+<div class="card-columns">
+    <div class="card" style="width:500px; height:300px">
+        <div class="card-body">
+            <h2 class="card-title">Workspace Notes</h2>
+            <textarea class="form-control" style="width: 200px; height: 200px; resize: none" readonly id="workspace_notes" rows="3"></textarea>
+        </div>
+    </div>
+    <div class="card" style=" margin-left: -150px; width:1100px; height:300px">
+        <table  class="table table-hover table-bordered" id="my_table" width="100%">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Skills</th>
+                <th>Nome</th>
+                <th>8:00-9:00</th>
+                <th>9:00-10:00</th>
+                <th>10:00-11:00</th>
+                <th>11:00-12:00</th>
+                <th>12:00-13:00</th>
+                <th>13:00-14:00</th>
+                <th>14:00-15:00</th>
+
+            </tr>
+            <template id="availabilityTimeSlot-template">
+                <tr>
+                    <th>{Id_Maintainer}</th>
+                    <th>{Skills}</th>
+                    <th>{Nome}</th>
+                    <td>{Avail8_9}</td>
+                    <td>{Avail9_10}</td>
+                    <td>{Avail10_11}</td>
+                    <td>{Avail11_12}</td>
+                    <td>{Avail12_13}</td>
+                    <td>{Avail13_14}</td>
+                    <td>{Avail14_15}</td>
+                </tr>
+            </template>
+            </thead>
+            <tbody id="availabilityTimeSlot-rows">
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="12">
+                    <span id="request-status"></span>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<div >
+    <button style="margin-left: 700px" id="reset_button" class="btn btn-primary">Reset selection</button>
+    <form action="final_step.html" method="get">
+        <input type="submit" style="margin-left: 1200px; margin-top: -67px" id="forward_button" class="btn btn-primary" value="Forward">
+    </form>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<!-- Custom JS -->
+<script type="text/javascript" src="js/browse-constants.js"></script>
+<script type="text/javascript" src="js/TimeSelection.js"></script>
+
+<script type="application/javascript">
+    $(document).ready(function () {
+        let urlParams = new URLSearchParams(window.location.search);
+        let activity_id = urlParams.get('id');
+        let week = urlParams.get('week');
+        let day = urlParams.get('day');
+        let id_maintainer = urlParams.get('id_maintainer');
+        let availability = urlParams.get('availability');
+        $('#day').val(day);
+        $('#week_textarea').val(week);
+        $('#availability').val(availability + "%");
+        let controller = new TimeSelection(activity_id, week, id_maintainer, day,  SELECTED_MICRO_SERVICE_ENDPOINT_ACTIVITY, SELECTED_MICRO_SERVICE_ENDPOINT_TIME_AVAILABILITY);
+        controller.initBrowseView();
+
+
+        let flag = true;
+
+        $('#reset_button').click(function (){
+            flag = true;
+            let cells = document.querySelectorAll('td');
+            cells.forEach(function(cell) {
+                console.log(cell.innerHTML);
+                cell.style.backgroundColor = '';
+            });
+        });
+
+        $('#forward_button').click(function (){
+
+            if (flag){
+                alert("Errore");
+                return false;
+            }
+            else {
+
+                controller.sendEmail();
+                return false;
+
+            }
+        });
+
+        $('#my_table').on('click', 'td', function(e) {
+            if (flag) {
+                flag = false;
+                let cell_availability = this.innerHTML;
+                console.log(cell_availability);
+                let cell = cell_availability;
+                let color = '';
+                if(cell >= 0 && cell < 20){
+                    color = '#FF0000';
+                }
+                if(cell >= 20 && cell < 30){
+                    color = '#FFA500';
+                }
+                if(cell >= 30 && cell < 50){
+                    color = '#FFFF00';
+                }
+                if(cell >= 50 && cell <= 60){
+                    color = '#008000';
+                }
+                $(this).css('backgroundColor', color);
+                let time = e.delegateTarget.tHead.rows[0].cells[this.cellIndex];
+                let maintainer  = this.parentNode.cells[0];
+                let maintainer_name  = this.parentNode.cells[2];
+
+                controller.name = $(maintainer_name).text();
+                controller.time = $(time).text();
+
+                alert("Il maintainer selezionato è: " + $(maintainer_name).text() + "- id = " + $(maintainer).text() + "\nIl giorno selezionato è: " + day + "\nL'orario selezionato è: " + $(time).text() + ".");
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>
+

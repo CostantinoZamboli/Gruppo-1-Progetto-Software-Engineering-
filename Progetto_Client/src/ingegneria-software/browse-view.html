@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Browse Activity</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body style="background: whitesmoke">
+
+<h2> Planned Activities </h2>
+<hr>
+<div align="left" style="margin-left: 5px">
+    <label for="week_textarea">Week n°</label>
+    <input type="text" readonly style=" text-align:center; width: 100px" id="week_textarea" class="form-control" >
+</div>
+<table class="table table-striped" style="border-radius: 5px" id="activity" border="1" width="100%">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Site</th>
+        <th>Area</th>
+        <th>Type</th>
+        <th>Time</th>
+        <th id="select_area"></th>
+
+    </tr>
+    <template id="activity-template">
+        <tr>
+            <td>{Id}</td>
+            <td>{Site}</td>
+            <td>{Area}</td>
+            <td>{Type}</td>
+            <td>{Time}</td>
+            <td>{Select}</td>
+        </tr>
+    </template>
+    </thead>
+    <tbody id="activity-rows">
+
+    </tbody>
+    <tfoot>
+    <tr>
+        <th colspan="6">
+            <span id="request-status"></span>
+        </th>
+    </tr>
+    </tfoot>
+</table>
+<br>
+
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<!-- Custom JS -->
+<script type="text/javascript" src="js/browse-constants.js"></script>
+<script type="text/javascript" src="js/BrowseController.js"></script>
+
+<script type="application/javascript">
+    $(document).ready(function () {
+        let controller = new BrowseController(SELECTED_MICRO_SERVICE_ENDPOINT);
+        controller.initBrowseView();
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Maintainer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body style="background: whitesmoke">
+
+<h2>Maintainer Selection</h2>
+<hr>
+<form>
+    <div align="center">
+        <label for="week_textarea">Week</label>
+        <input type="text" readonly style="text-align:center; width: 100px" id="week_textarea" class="form-control" >
+        <label for="activity_info">Activity to assign</label>
+        <input type="text" readonly style="text-align: center; width: 400px; alignment: center" id="activity_info" class="form-control" >
+    </div>
+</form>
+
+<br>
+<br>
+
+<div class="card-columns">
+    <div class="card" style="width:350px; height:300px">
+        <div class="card-body">
+            <h2 class="card-title">Skills Needed</h2>
+            <ul id="dynamic-list"></ul>
+        </div>
+    </div>
+    <div class="card" style=" margin-left: -150px; width:1100px; height:300px">
+        <table  class="table table-hover table-bordered" id="my_table" width="100%">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Skills</th>
+        <th>Nome</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th>Saturday</th>
+        <th>Sunday</th>
+
+    </tr>
+    <template id="availability-template">
+        <tr>
+            <th>{Id}</th>
+            <th>{Skills}</th>
+            <th>{Nome}</th>
+            <td>{AvailLun}</td>
+            <td>{AvailMar}</td>
+            <td>{AvailMerc}</td>
+            <td>{AvailGiov}</td>
+            <td>{AvailVen}</td>
+            <td>{AvailSab}</td>
+            <td>{AvailDom}</td>
+        </tr>
+    </template>
+    </thead>
+    <tbody id="availability-rows">
+
+    </tbody>
+    <tfoot>
+    <tr>
+        <th colspan="12">
+            <span id="request-status"></span>
+        </th>
+    </tr>
+    </tfoot>
+</table>
+    </div>
+</div>
+
+<div >
+    <button style="margin-left: 700px" id="reset_button" class="btn btn-primary">Reset selection</button>
+    <form id="my_form" >
+    <input type="hidden" id="id" name="id">
+    <input type="hidden" id="week" name="week">
+    <input type="hidden" id="day" name="day">
+    <input type="hidden" id="id_maintainer" name="id_maintainer">
+    <input type="hidden" id="availability" name="availability">
+    <input type="submit" style="margin-left: 1200px; margin-top: -67px" id="forward_button" class="btn btn-primary" value="Forward">
+    </form>
+</div>
+
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<!-- Custom JS -->
+<script type="text/javascript" src="js/browse-constants.js"></script>
+<script type="text/javascript" src="js/MaintainerSelection.js"></script>
+
+<script type="application/javascript">
+    $(document).ready(function () {
+        let urlParams = new URLSearchParams(window.location.search);
+        let activity_id = urlParams.get('id');
+        let week = urlParams.get('week');
+        $('#id').val(activity_id);
+        $('#week').val(week);
+        let controller = new MaintainerSelection(SELECTED_MICRO_SERVICE_ENDPOINT_ACTIVITY,SELECTED_MICRO_SERVICE_ENDPOINT_SKILL,SELECTED_MICRO_SERVICE_ENDPOINT_AVAILABILITY, activity_id, week);
+        controller.initBrowseView();
+    });
+</script>
+
+<script>
+    let flag = true;
+
+    $('#reset_button').click(function (){
+        flag = true;
+        let cells = document.querySelectorAll('td');
+        cells.forEach(function(cell) {
+            console.log(cell.innerHTML);
+            cell.style.backgroundColor = '';
+        });
+    });
+
+    $('#forward_button').click(function (){
+
+        if (flag){
+            alert("Errore");
+            return false;
+
+        }
+        else{
+            let form = $('#my_form');
+            form.attr("action", "final_step.html");
+            form.attr("method", "get");
+        }
+    });
+
+    $('#my_table').on('click', 'td', function(e) {
+        if (flag) {
+            flag = false;
+            let cell_availability = this.innerHTML;
+            console.log(cell_availability);
+            let cell = cell_availability.slice(0,-1);
+            let color = '';
+            if(cell >= 0 && cell < 20){
+                color = '#FF0000';
+            }
+            if(cell >= 20 && cell < 40){
+                color = '#FFA500';
+            }
+            if(cell >= 40 && cell < 70){
+                color = '#FFFF00';
+            }
+            if(cell >= 70 && cell <= 100){
+                color = '#008000';
+            }
+            $(this).css('backgroundColor', color);
+            let day = e.delegateTarget.tHead.rows[0].cells[this.cellIndex];
+            let maintainer  = this.parentNode.cells[0];
+            let maintainer_name  = this.parentNode.cells[2];
+
+            $("#day").val($(day).text());
+            $("#id_maintainer").val($(maintainer).text());
+            $("#availability").val(cell);
+            alert("Il maintainer selezionato è: " + $(maintainer_name).text() + " id = " + $(maintainer).text() +"." + "\nIl giorno selezionato è: " + $(day).text() + ".");
+        }
+    });
+</script>
+
+</body>
+</html>
+
