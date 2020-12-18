@@ -39,7 +39,6 @@ class Selection {
     initBrowseView(){
         let controller = this;
 
-        /* Call the microservice and evaluate data and result status */
         $.getJSON(this.serviceEndPointActivity, function (data) {
             controller.renderGUI(data, true);
         }).done(function () {
@@ -50,7 +49,6 @@ class Selection {
 
         this.showMessageStatus("black","Requesting data from service: " + this.serviceEndPointActivity);
 
-        /* Call the microservice and evaluate data and result status */
         $.getJSON(this.serviceEndPointSkill, function (data) {
             controller.renderGUI(data, false);
         }).done(function () {
@@ -64,7 +62,6 @@ class Selection {
 
 
     renderGUI(data, flag) {
-        /* Get the html template for table rows */
 
         let controller = this;
         if (flag) {
@@ -104,7 +101,7 @@ class Selection {
     }
 
     editWorkspaceNotes(){
-        $.post("http://192.168.1.77:8080/project/prova_ajax.jsp",
+        $.post("http://192.168.1.77:8080/project/update_workspace_notes.jsp",
             {
                 id: this._workspace_notes_id,
                 description: $('#workspace_notes').val(),
@@ -114,7 +111,6 @@ class Selection {
         });
 
     }
-
 
 
 

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Smart Maintenance App</title>
+    <style>
+        body {
+            margin: 0;
+            background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .btn-grad {background-image: linear-gradient(to right, #16222A 0%, #3A6073  51%, #16222A  100%)}
+        .btn-grad {
+            margin: 10px;
+            padding: 15px 45px;
+            text-align: center;
+            text-transform: uppercase;
+            transition: 0.5s;
+            background-size: 200% auto;
+            color: white;
+            box-shadow: 0 0 20px #eee;
+            border-radius: 10px;
+            display: block;
+        }
+
+        .btn-grad:hover {
+            background-position: right center; /* change the direction of the change here */
+            color: #fff;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+
+<h2><strong>Professional Maintenance Application</strong></h2>
+<div id="" style="position: absolute; top: 50%; z-index: 15;  margin: -100px 0 0 -150px; left: 50%; ">
+
+    <div id="planned" style="display: inline-block; margin-right: 180px; margin-left: -180px">
+        <a href="browse-view.html" type="button" class="rounded-pill btn btn-grad "><strong>Planned Activities</strong></a>
+        <br>
+        <br>
+        <p style="margin-left: 18px"><strong>View and manage daily activities.</strong></p>
+    </div>
+
+    <div id="ewo" style=" display: inline-block">
+        <a href="browse-view_EWO.html" type="button" class="rounded-pill btn btn-grad"><strong>Emergency Work Order</strong></a>
+        <br>
+        <br>
+        <p style="margin-left: 30px"><strong>Manage tickets and
+            open an EWO.</strong></p>
+    </div>
+
+    <img src="maintainance.png" style="display: block; margin-left: 80px; margin-right: auto; width: 90%; margin-top: 90px">
+
+</div>
+
+</body>
+</html>

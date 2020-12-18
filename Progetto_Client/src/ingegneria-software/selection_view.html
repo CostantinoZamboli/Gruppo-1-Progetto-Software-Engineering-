@@ -9,10 +9,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Custom JS -->
     <script type="text/javascript" src="js/browse-constants.js"></script>
     <script type="text/javascript" src="js/Selection.js"></script>
 </head>
+
+    <style>
+        body,div,textarea {
+            margin: 0;
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
 <body>
 
 
@@ -25,11 +33,10 @@
     </div>
 </form>
 <br>
-<div class="card-columns">
+<div style="" class="card-columns">
     <div class="card" style="width:500px; height:300px">
         <div class="card-body">
             <h2 class="card-title">Workspace Notes</h2>
-            <!--<input type="text" class="form-control" id="workspace_notes" >-->
             <textarea class="form-control" style="width: 400px; height: 150px; resize: none" id="workspace_notes" rows="3"></textarea>
 
         </div>
@@ -68,7 +75,7 @@
             <form method="get" action="maintainer_selection.html">
                 <input type="hidden" id="select_id_activity" name="id">
                 <input type="hidden" id="week" name="week">
-                <input type="submit" class="btn btn-primary" value="Select">
+                <input type="submit" class="btn btn-primary" value="Forward">
             </form>
         </div>
     </div>
@@ -85,7 +92,6 @@
         $('#edit_button').click(function(){
             controller.editWorkspaceNotes();
         });
-        console.log(controller.serviceEndPointActivity);
     });
 </script>
 </body>

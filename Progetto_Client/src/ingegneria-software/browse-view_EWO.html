@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Browse Activity</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        html {
+            height: 100%;
+        }
+        body, textarea {
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+
+</head>
+<body>
+
+<h2>EWO Tickets - Assignment</h2>
+<hr>
+<div align="left"  style="margin-left: 5px">
+    <div style="display: inline-block">
+        <label for="week_textarea">Week n°</label>
+        <input type="text" readonly style=" text-align:center; width: 100px" id="week_textarea" class="form-control" >
+    </div>
+    <div style="display:inline-block;">
+        <label for="day_textarea">Day</label>
+        <input type="text" readonly style=" text-align:center; width: 100px" id="day_textarea" class="form-control" >
+    </div>
+</div>
+<br>
+<table class="table table-striped" style="border-radius: 5px" id="activity" border="1" width="100%">
+    <thead>
+    <tr>
+        <th>EWO-id</th>
+        <th>Site</th>
+        <th>Area</th>
+        <th>Type</th>
+        <th>State</th>
+        <th id="select_area"></th>
+
+    </tr>
+    <template id="activity-template">
+        <tr>
+            <td>{Ewo-id}</td>
+            <td>{Site}</td>
+            <td>{Area}</td>
+            <td>{Type}</td>
+            <td>{Stato}</td>
+            <td>{Select}</td>
+        </tr>
+    </template>
+    </thead>
+    <tbody id="activity-rows">
+
+    </tbody>
+    <tfoot>
+    <tr>
+        <th colspan="9">
+            <span id="request-status"></span>
+        </th>
+    </tr>
+    </tfoot>
+</table>
+<br>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script type="text/javascript" src="js/browse-constants.js"></script>
+<script type="text/javascript" src="js/EwoBrowserController.js"></script>
+
+<script type="application/javascript">
+    $(document).ready(function () {
+        let controller = new EwoBrowserController(SELECTED_MICRO_SERVICE_ENDPOINT_BROWSE_EWO);
+        controller.initBrowseView();
+    });
+</script>
+
+</body>
+</html>

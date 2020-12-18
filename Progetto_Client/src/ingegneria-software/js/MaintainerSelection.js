@@ -48,7 +48,6 @@ class MaintainerSelection{
     initBrowseView(){
         let controller = this;
 
-        /* Call the microservice and evaluate data and result status */
         $.getJSON(this.serviceEndPointActivity, function (data) {
             controller.renderGUI(data, true);
         }).done(function () {
@@ -59,7 +58,6 @@ class MaintainerSelection{
 
         this.showMessageStatus("black","Requesting data from service: " + this.serviceEndPointActivity);
 
-        /* Call the microservice and evaluate data and result status */
         $.getJSON(this.serviceEndPointSkill, function (data) {
             controller.renderGUI(data, false);
         }).done(function () {
@@ -70,8 +68,6 @@ class MaintainerSelection{
 
         this.showMessageStatus("black","Requesting data from service: " + this.serviceEndPointSkill);
 
-        /* Call the microservice and evaluate data and result status */
-        console.log(this.serviceEndpointTable);
         $.getJSON(this.serviceEndpointTable,function (data) {
             controller.renderTable(data);
         }).done(function () {
@@ -86,7 +82,6 @@ class MaintainerSelection{
 
 
     renderGUI(data, flag) {
-        /* Get the html template for table rows */
         let staticHtmlActivityInfo = document.getElementById("activity_info");
         let staticHtmlWeek = document.getElementById("week_textarea");
 

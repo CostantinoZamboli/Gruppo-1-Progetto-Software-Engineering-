@@ -11,7 +11,6 @@ class BrowseController {
     initBrowseView(){
         let controller = this;
 
-        /* Call the microservice and evaluate data and result status */
         $.getJSON(this.serviceEndPoint, function (data) {
             controller.renderGUI(data);
         }).done(function () {

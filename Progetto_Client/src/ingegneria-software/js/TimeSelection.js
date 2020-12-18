@@ -86,7 +86,6 @@ class TimeSelection{
     initBrowseView(){
         let controller = this;
 
-        /* Call the microservice and evaluate data and result status */
         $.getJSON(this.service_endpoint_activity_workspace, function (data) {
             controller.renderGUI(data);
         }).done(function () {
@@ -154,15 +153,20 @@ class TimeSelection{
 
     sendEmail(){
 
-        $.post("http://192.168.1.77:8080/project/email.jsp",
+        let info = {
+            id_maintainer: this.id_maintainer,
+            activity_id: this.activity_id,
+            week: this.week,
+            day: this.day,
+            time: this.time,
+            name: this.name,
+            date: new Date(),
+        }
+        console.log("[" + JSON.stringify(info) + "]");
+        $.post("http://192.168.1.77:8080/project/email_planned.jsp",
             {
-                id_maintainer: this.id_maintainer,
                 activity_id: this.activity_id,
-                week: this.week,
-                day: this.day,
-                time: this.time,
-                name: this.name,
-                date: new Date(),
+                data: "[" + JSON.stringify(info) + "]",
             },
             function(data, status){
                 alert("Data: " + data + "\nStatus: " + status);
