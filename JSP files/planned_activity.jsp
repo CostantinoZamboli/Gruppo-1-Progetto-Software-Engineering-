@@ -1,3 +1,13 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: ciost
+  Date: 24/11/2020
+  Time: 14:52
+  To change this template use File | Settings | File Templates.
+--%>
+
+ 
+
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="main.*" %>
@@ -6,12 +16,12 @@
 <% 
 
 String result;
-int id_activity = Integer.valueOf(request.getParameter("id"));
 PostgresDbConnection dbConnection = new PostgresDbConnection();
 PlannedActivity plannedActivity = new PlannedActivity();
-try {
-	result = plannedActivity.getSkillByIdToJson(id_activity, dbConnection);
-} catch(Exception e){
+
+try{
+	result = plannedActivity.getPlannedActivities(dbConnection);
+} catch(Exception ex){
 	result = "[{}]";
 }
 response.setContentType("application/json");

@@ -5,15 +5,18 @@
 
 <% 
 
-String result;
-int id_activity = Integer.valueOf(request.getParameter("id"));
+String jsonResult;
 PostgresDbConnection dbConnection = new PostgresDbConnection();
-PlannedActivity plannedActivity = new PlannedActivity();
+EwoActivity ewo = new EwoActivity();
+
+String result = "";
+
 try {
-	result = plannedActivity.getSkillByIdToJson(id_activity, dbConnection);
+	result = ewo.getSkillToJson(dbConnection);
 } catch(Exception e){
 	result = "[{}]";
 }
+
 response.setContentType("application/json");
 response.setHeader("Access-Control-Allow-Origin", "*");
 

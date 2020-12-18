@@ -5,13 +5,19 @@
 
 <% 
 
-String jsonResult;
+String result;
 int id_activity = Integer.valueOf(request.getParameter("id"));
 PostgresDbConnection dbConnection = new PostgresDbConnection();
-DatabaseView dbToJson = new DatabaseView();
+PlannedActivity plannedActivity = new PlannedActivity();
+
+try {
+	result = plannedActivity.getActivityByIdToJson(id_activity, dbConnection);
+} catch(Exception e){
+	result = "[{}]";
+}
 
 response.setContentType("application/json");
 response.setHeader("Access-Control-Allow-Origin", "*");
 
 %>
-<%= dbToJson.getActivityByIdtoJson(id_activity, dbConnection)%>
+<%= result %>
