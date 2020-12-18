@@ -1,6 +1,7 @@
 package main;
 import java.sql.Connection;
 import java.sql.DriverManager;
+
 public class PostgresDbConnection {
 
         private String dbDriver = "jdbc:postgresql";
@@ -68,7 +69,11 @@ public class PostgresDbConnection {
         }
 
 
-        public Connection connect() {
+    /**
+     * Metodo di connessione al database
+     * @return oggetto di tipo Connection
+     */
+    public Connection connect() {
             String dbConnectionUrl = this.dbDriver + "://"
                     + this.dbHost + ":"
                     + this.dbPort + "/"
@@ -80,7 +85,7 @@ public class PostgresDbConnection {
                 return con;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                System.out.println("sto ritornando null");
+                //System.out.println("sto ritornando null");
                 return null;
             }
         }
